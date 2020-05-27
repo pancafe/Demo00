@@ -23,8 +23,25 @@ public class UserController {
     private  UserService userService;
 
     @GetMapping("/infoadd")
-    public String infoadd(){
+    public String toinfoadd(){
         return "infoadd";
+    }
+
+    @PostMapping("/add")
+    public String infoadd(@RequestParam String name, @RequestParam Integer age, @RequestParam String email, @RequestParam String password
+            , @RequestParam String sex, @RequestParam String address){
+        UserDemo userDemo=userService.checkUser(email,password);
+        if(userDemo!=null) return "redirect:/infoadd";
+        UserDemo user=new UserDemo();
+        user.setName(name);
+        user.setAddress(address);
+        user.setAge(age);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setSex(sex);
+        userService.saveUser(user);
+
+        return "redirect:/infocrud";
     }
 
     @GetMapping("/infocrud")
@@ -87,15 +104,17 @@ public class UserController {
     @PostMapping("/update")
     public String update(@RequestParam String name,@RequestParam Integer age,@RequestParam String email,@RequestParam String password,
               @RequestParam String sex,@RequestParam String address,HttpSession session  ){
-        Long updateId= (Long) session.getAttribute("id");
+        Long updateId= (Long) session.getAttribute("id");//session.getAttribute获取出的数据类型为object，所以应转换
         UserDemo user=new UserDemo();
+        user.setId(updateId);
+        //注意：jpa中没有update相关的方法，而是靠save实现，用来保存实体。当实体中包含主键时，JPA会进行更新操作。因此此步需要将id设置进实体中，否则修改失败报错
         user.setName(name);
         user.setAddress(address);
         user.setAge(age);
         user.setEmail(email);
         user.setPassword(password);
         user.setSex(sex);
-        userService.updateUser(updateId,user);
+        userService.updateUser(user);
         return "redirect:/infocrud";
     }
 

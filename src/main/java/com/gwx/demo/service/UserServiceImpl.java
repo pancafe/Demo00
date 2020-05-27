@@ -35,14 +35,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDemo updateUser(Long id, UserDemo userDemo) {
+    public UserDemo updateUser(UserDemo userDemo) {
 
-       UserDemo user = userRepository.getOne(id);
-        if(user == null)
-            throw new NotFoundException("该用户不存在");
-        BeanUtils.copyProperties(userDemo,user);
+        //BeanUtils.copyProperties(userDemo,user);
         //使用org.springframework.beans.BeanUtils.copyProperties方法进行对象之间属性的赋值，避免通过get、set方法一个一个属性的赋值
-        return userRepository.save(user);
+        return userRepository.save(userDemo);
     }
 
     @Override
