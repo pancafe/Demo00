@@ -98,4 +98,11 @@ public class UserController {
         userService.updateUser(updateId,user);
         return "redirect:/infocrud";
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("user");
+        return "redirect:/login";
+    }
+
 }
