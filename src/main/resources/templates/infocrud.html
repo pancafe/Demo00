@@ -364,11 +364,16 @@
                       <th>Age</th>
                       <th>Email</th>
                       <th>Address</th>
-                      <th>Options</th>
+                      <th rowspan="1" colspan="1" class="pagination">
+                        <a th:href="@{/infocrud(start=0)}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">First</a>
+                        <a th:if="${not page.isFirst()}" th:href="@{/infocrud(start=${page.number}-1)}" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">Previous</a>
+                        <a th:if="${not page.isLast()}" th:href="@{/infocrud(start=${page.number}+1)}" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                        <a th:href="@{/infocrud(start=${page.totalPages}-1)}" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">Last</a>
+                      </th>
                     </tr>
                   </tfoot>
                   <tbody>
-                    <tr th:each="user : ${users}">
+                    <tr th:each="user : ${page}">
                       <td th:text="${user.name}">Tiger Nixon</td>
                       <td th:text="${user.sex}">System Architect</td>
                       <td th:text="${user.age}">Edinburgh</td>

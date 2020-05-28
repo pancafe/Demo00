@@ -3,6 +3,8 @@ package com.gwx.demo.controller;
 import com.gwx.demo.po.UserDemo;
 import com.gwx.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -44,11 +46,23 @@ public class UserController {
         return "redirect:/infocrud";
     }
 
-    @GetMapping("/infocrud")
-    public String infocrud(@PageableDefault(size=5,sort={"id"},direction= Sort.Direction.DESC) Pageable pageable, Model model){
-        model.addAttribute("users",userService.listUser( pageable));
-        return "infocrud";
-    }
+//    @GetMapping("/infocrud")
+//    public String infocrud(@PageableDefault(size=5,sort={"id"},direction= Sort.Direction.DESC) Pageable pageable, Model model){
+//        model.addAttribute("users",userService.listUser( pageable));
+//        return "infocrud";
+//    }
+      @GetMapping("/infocrud")
+      public String infocrud(@RequestParam(value = "start",defaultValue = "0") Integer start,
+                             @RequestParam(value = "limit",defaultValue = "3") Integer limit,
+                             Model model){
+        start= start<0 ? 0:start;
+        Sort sort=Sort.by(Sort.Order.asc("id"));//Sort sort=new Sort(Sort.Default_Direction,"id");已过时
+        Pageable pageable=PageRequest.of(start,limit,sort);//Pageable page=new PageRequest(start,limit,sort);已过时
+
+          Page<UserDemo> page=userService.listUser(pageable);
+          model.addAttribute("page",page);
+          return "infocrud";
+      }
 
     @GetMapping("/register")
     public String toregister(){return "register";}
