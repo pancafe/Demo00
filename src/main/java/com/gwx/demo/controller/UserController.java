@@ -24,6 +24,11 @@ public class UserController {
     @Autowired
     private  UserService userService;
 
+    @GetMapping("/index")
+    public String index(){
+        return "index";
+    }
+
     @GetMapping("/infoadd")
     public String toinfoadd(){
         return "infoadd";
