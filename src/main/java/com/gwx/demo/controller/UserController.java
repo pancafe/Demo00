@@ -116,7 +116,7 @@ public class UserController {
     public String toUpdate(@PathVariable("id")Long id,Model model,HttpSession session){
         UserDemo userDemo=userService.getUser(id);
         model.addAttribute("userinfo",userDemo);
-        session.setAttribute("id",id);
+        session.setAttribute("id",id);//用于修改信息时来获取id
         return "updateinfo";
     }
 
