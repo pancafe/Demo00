@@ -26,6 +26,7 @@ public class UserDemo {
     private String address;
     private String password;
 
+    //以下可以用lombok代替
     public Long getId() {
         return id;
     }
